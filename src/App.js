@@ -9,22 +9,23 @@ class App extends React.Component {
     this.state = {
       cardName: '',
       cardDescription: '',
-      cardAttr1: '',
-      cardAttr2: '',
-      cardAttr3: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
+      cards: [],
     };
   }
 
   onInputChange = ({ target }) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({ [target.name]: value }, this.buttonDisable);
+    this.setState({ [target.name]: value }, this.buttonDisabled);
   }
 
-  buttonDisable = () => {
+  buttonDisabled = () => {
     const { cardName, cardDescription, isSaveButtonDisabled,
       cardImage, cardRare, cardAttr1, cardAttr2, cardAttr3 } = this.state;
 
@@ -47,8 +48,43 @@ class App extends React.Component {
     }
   };
 
-  onSaveButtonClick = () => {
+  onSaveButtonClick = (event) => {
+    event.preventDefault();
+    this.setState({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+    }, this.addNewCard());
+  }
 
+  addNewCard = () => {
+    this.setState((prevState) => ({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      cards: [...prevState.cards, {
+        cardName: prevState.cardName,
+        cardDescription: prevState.cardDescription,
+        cardAttr1: prevState.cardAttr1,
+        cardAttr2: prevState.cardAttr2,
+        cardAttr3: prevState.cardAttr3,
+        cardImage: prevState.cardImage,
+        cardRare: prevState.cardRare,
+        cardTrunfo: prevState.cardTrunfo,
+      },
+      ],
+    }), () => console.log(this.state));
   }
 
   render() {
@@ -68,8 +104,10 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
+          onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card
+          data={ this.addNewCard }
           cardName={ cardName }
           cardDescription={ cardDescription }
           cardAttr1={ cardAttr1 }
