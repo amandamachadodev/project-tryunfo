@@ -93,15 +93,14 @@ class App extends React.Component {
     const trunfo = cards.some((element) => element.cardTrunfo === true);
     if (trunfo) {
       this.setState({ hasTrunfo: true });
-      console.log('hasTrunfo');
     } else {
       this.setState({ hasTrunfo: false });
-      console.log('não');
+      console.log(cards);
     }
   }
 
   render() {
-    const { cardName, cardDescription, cardAttr1, cardAttr2, hasTrunfo,
+    const { cardName, cardDescription, cardAttr1, cardAttr2, hasTrunfo, cards,
       cardAttr3, cardImage, cardRare, cardTrunfo, isSaveButtonDisabled } = this.state;
     return (
       <div>
@@ -132,6 +131,20 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
         />
+        <div>
+          {cards.map((card) => (
+            <div key={ card.cardName }>
+              {card.cardName}
+              {card.cardDescription}
+              {card.cardAttr1}
+              {card.cardAttr2}
+              {card.cardAttr3}
+              {card.cardImage}
+              {card.cardRare}
+              {card.cardTrunfo}
+              <button type="button">Delete</button>
+            </div>))}
+        </div>
       </div>
     );
   }
